@@ -3,13 +3,35 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Verdex AI - Climate resilient farming intelligence API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: dashboard
+    description: Platform-wide impact metrics
+  - name: crop-doctor
+    description: Crop disease diagnosis engine
+  - name: climate
+    description: Climate risk and forecast engine
+  - name: irrigation
+    description: Smart irrigation water planning
+  - name: soil
+    description: Soil intelligence analysis
+  - name: crop-planner
+    description: AI crop planning and profit prediction
+  - name: resource-optimizer
+    description: Resource usage optimization engine
+  - name: resilience
+    description: Farm resilience scoring
+  - name: schemes
+    description: Government scheme matching
+  - name: market
+    description: Market price intelligence
+  - name: assistant
+    description: Farming knowledge assistant
 paths:
   /healthz:
     get:
@@ -24,6 +46,253 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /dashboard/stats:
+    get:
+      operationId: getPlatformStats
+      tags: [dashboard]
+      summary: Platform-wide impact statistics
+      responses:
+        "200":
+          description: Platform stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlatformStats"
+
+  /dashboard/districts:
+    get:
+      operationId: listDistricts
+      tags: [dashboard]
+      summary: List supported districts with climate zone classification
+      responses:
+        "200":
+          description: District list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/District"
+
+  /crop-doctor/crops:
+    get:
+      operationId: listDiagnosableCrops
+      tags: [crop-doctor]
+      summary: List crops supported by the crop doctor engine
+      responses:
+        "200":
+          description: Supported crops and symptoms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DiagnosableCrop"
+
+  /crop-doctor/diagnose:
+    post:
+      operationId: diagnoseCrop
+      tags: [crop-doctor]
+      summary: Diagnose crop disease from selected symptoms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CropDiagnosisInput"
+      responses:
+        "200":
+          description: Diagnosis result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CropDiagnosis"
+
+  /climate/forecast:
+    post:
+      operationId: getClimateForecast
+      tags: [climate]
+      summary: Get climate risk forecast for a district and season
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClimateForecastInput"
+      responses:
+        "200":
+          description: Climate forecast
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClimateForecast"
+
+  /irrigation/recommend:
+    post:
+      operationId: recommendIrrigation
+      tags: [irrigation]
+      summary: Recommend irrigation timing and water quantity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IrrigationInput"
+      responses:
+        "200":
+          description: Irrigation recommendation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IrrigationPlan"
+
+  /soil/analyze:
+    post:
+      operationId: analyzeSoil
+      tags: [soil]
+      summary: Analyze soil report and suggest crops and improvements
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SoilReportInput"
+      responses:
+        "200":
+          description: Soil analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoilAnalysis"
+
+  /crop-planner/plan:
+    post:
+      operationId: generateCropPlan
+      tags: [crop-planner]
+      summary: Generate crop recommendations, income and risk prediction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CropPlanInput"
+      responses:
+        "200":
+          description: Crop plan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CropPlan"
+
+  /resource-optimizer/optimize:
+    post:
+      operationId: optimizeResources
+      tags: [resource-optimizer]
+      summary: Compute resource usage optimization vs best practice benchmarks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResourceUsageInput"
+      responses:
+        "200":
+          description: Optimization result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceOptimization"
+
+  /resilience/score:
+    post:
+      operationId: calculateResilienceScore
+      tags: [resilience]
+      summary: Calculate the AI Resilience Score from six farm factors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResilienceFactorsInput"
+      responses:
+        "200":
+          description: Resilience score
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResilienceScore"
+
+  /schemes:
+    get:
+      operationId: listSchemes
+      tags: [schemes]
+      summary: List all government schemes tracked by the platform
+      responses:
+        "200":
+          description: Scheme list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GovernmentScheme"
+
+  /schemes/match:
+    post:
+      operationId: matchSchemes
+      tags: [schemes]
+      summary: Match a farmer profile against eligible government schemes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SchemeMatchInput"
+      responses:
+        "200":
+          description: Matched schemes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SchemeMatch"
+
+  /market/prices:
+    get:
+      operationId: getMarketPrices
+      tags: [market]
+      summary: Current mandi prices and demand trend for tracked crops
+      responses:
+        "200":
+          description: Market prices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MarketPrice"
+
+  /assistant/ask:
+    post:
+      operationId: askAssistant
+      tags: [assistant]
+      summary: Ask the farming knowledge assistant a question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssistantQuestionInput"
+      responses:
+        "200":
+          description: Assistant answer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssistantAnswer"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +303,532 @@ components:
       required:
         - status
 
+    PlatformStats:
+      type: object
+      properties:
+        farmersEmpowered:
+          type: integer
+        districtsCovered:
+          type: integer
+        aiPredictionsGenerated:
+          type: integer
+        waterSavedLiters:
+          type: integer
+        carbonReducedKg:
+          type: integer
+        asOf:
+          type: string
+      required:
+        - farmersEmpowered
+        - districtsCovered
+        - aiPredictionsGenerated
+        - waterSavedLiters
+        - carbonReducedKg
+        - asOf
+
+    District:
+      type: object
+      properties:
+        name:
+          type: string
+        state:
+          type: string
+        climateZone:
+          type: string
+        primaryCrops:
+          type: array
+          items:
+            type: string
+        avgAnnualRainfallMm:
+          type: integer
+      required:
+        - name
+        - state
+        - climateZone
+        - primaryCrops
+        - avgAnnualRainfallMm
+
+    DiagnosableCrop:
+      type: object
+      properties:
+        crop:
+          type: string
+        availableSymptoms:
+          type: array
+          items:
+            type: string
+      required:
+        - crop
+        - availableSymptoms
+
+    CropDiagnosisInput:
+      type: object
+      properties:
+        crop:
+          type: string
+        symptoms:
+          type: array
+          items:
+            type: string
+        imageProvided:
+          type: boolean
+      required:
+        - crop
+        - symptoms
+
+    CropDiagnosis:
+      type: object
+      properties:
+        diseaseName:
+          type: string
+        confidence:
+          type: integer
+        severityScore:
+          type: integer
+        description:
+          type: string
+        organicTreatment:
+          type: array
+          items:
+            type: string
+        chemicalTreatment:
+          type: array
+          items:
+            type: string
+        recommendedScheme:
+          type: string
+        nearestOfficeGuidance:
+          type: string
+        futureRiskNote:
+          type: string
+      required:
+        - diseaseName
+        - confidence
+        - severityScore
+        - description
+        - organicTreatment
+        - chemicalTreatment
+        - recommendedScheme
+        - nearestOfficeGuidance
+        - futureRiskNote
+
+    ClimateForecastInput:
+      type: object
+      properties:
+        district:
+          type: string
+        season:
+          type: string
+          enum: [kharif, rabi, zaid]
+      required:
+        - district
+        - season
+
+    ClimateForecast:
+      type: object
+      properties:
+        district:
+          type: string
+        climateZone:
+          type: string
+        rainfall7DayMm:
+          type: number
+        rainfall30DayMm:
+          type: number
+        heatwaveRisk:
+          type: string
+          enum: [low, moderate, high, severe]
+        floodRisk:
+          type: string
+          enum: [low, moderate, high, severe]
+        cycloneRisk:
+          type: string
+          enum: [low, moderate, high, severe]
+        droughtRisk:
+          type: string
+          enum: [low, moderate, high, severe]
+        seasonOutlook:
+          type: string
+        climateResilienceScore:
+          type: integer
+      required:
+        - district
+        - climateZone
+        - rainfall7DayMm
+        - rainfall30DayMm
+        - heatwaveRisk
+        - floodRisk
+        - cycloneRisk
+        - droughtRisk
+        - seasonOutlook
+        - climateResilienceScore
+
+    IrrigationInput:
+      type: object
+      properties:
+        crop:
+          type: string
+        soilType:
+          type: string
+          enum: [sandy, loamy, clay, black, red, alluvial]
+        landSizeAcres:
+          type: number
+        season:
+          type: string
+          enum: [kharif, rabi, zaid]
+      required:
+        - crop
+        - soilType
+        - landSizeAcres
+        - season
+
+    IrrigationPlan:
+      type: object
+      properties:
+        bestIrrigationTiming:
+          type: string
+        recommendedWaterLitersPerAcre:
+          type: number
+        totalWaterLiters:
+          type: number
+        conventionalWaterLiters:
+          type: number
+        estimatedWaterSavingsPercent:
+          type: number
+        groundwaterConservationTip:
+          type: string
+        rainwaterHarvestingTip:
+          type: string
+      required:
+        - bestIrrigationTiming
+        - recommendedWaterLitersPerAcre
+        - totalWaterLiters
+        - conventionalWaterLiters
+        - estimatedWaterSavingsPercent
+        - groundwaterConservationTip
+        - rainwaterHarvestingTip
+
+    SoilReportInput:
+      type: object
+      properties:
+        nitrogenKgHa:
+          type: number
+        phosphorusKgHa:
+          type: number
+        potassiumKgHa:
+          type: number
+        ph:
+          type: number
+        organicCarbonPercent:
+          type: number
+      required:
+        - nitrogenKgHa
+        - phosphorusKgHa
+        - potassiumKgHa
+        - ph
+        - organicCarbonPercent
+
+    SoilAnalysis:
+      type: object
+      properties:
+        fertilityRating:
+          type: string
+        nitrogenLevel:
+          type: string
+        phosphorusLevel:
+          type: string
+        potassiumLevel:
+          type: string
+        phStatus:
+          type: string
+        organicCarbonStatus:
+          type: string
+        suitableCrops:
+          type: array
+          items:
+            type: string
+        organicImprovements:
+          type: array
+          items:
+            type: string
+        expectedYieldUpliftPercent:
+          type: number
+      required:
+        - fertilityRating
+        - nitrogenLevel
+        - phosphorusLevel
+        - potassiumLevel
+        - phStatus
+        - organicCarbonStatus
+        - suitableCrops
+        - organicImprovements
+        - expectedYieldUpliftPercent
+
+    CropPlanInput:
+      type: object
+      properties:
+        district:
+          type: string
+        landSizeAcres:
+          type: number
+        budgetInr:
+          type: number
+        waterAvailability:
+          type: string
+          enum: [low, medium, high]
+        soilType:
+          type: string
+          enum: [sandy, loamy, clay, black, red, alluvial]
+        season:
+          type: string
+          enum: [kharif, rabi, zaid]
+      required:
+        - district
+        - landSizeAcres
+        - budgetInr
+        - waterAvailability
+        - soilType
+        - season
+
+    CropRecommendation:
+      type: object
+      properties:
+        crop:
+          type: string
+        expectedIncomeInr:
+          type: number
+        investmentInr:
+          type: number
+        profitInr:
+          type: number
+        riskScore:
+          type: integer
+        marketDemand:
+          type: string
+          enum: [low, moderate, high, very_high]
+        matchScore:
+          type: integer
+      required:
+        - crop
+        - expectedIncomeInr
+        - investmentInr
+        - profitInr
+        - riskScore
+        - marketDemand
+        - matchScore
+
+    CropPlan:
+      type: object
+      properties:
+        district:
+          type: string
+        recommendations:
+          type: array
+          items:
+            $ref: "#/components/schemas/CropRecommendation"
+      required:
+        - district
+        - recommendations
+
+    ResourceUsageInput:
+      type: object
+      properties:
+        crop:
+          type: string
+        landSizeAcres:
+          type: number
+        currentFertilizerKgPerAcre:
+          type: number
+        currentWaterLitersPerAcre:
+          type: number
+        currentElectricityUnitsPerMonth:
+          type: number
+      required:
+        - crop
+        - landSizeAcres
+        - currentFertilizerKgPerAcre
+        - currentWaterLitersPerAcre
+        - currentElectricityUnitsPerMonth
+
+    ResourceOptimization:
+      type: object
+      properties:
+        recommendedFertilizerKgPerAcre:
+          type: number
+        fertilizerReductionPercent:
+          type: number
+        recommendedWaterLitersPerAcre:
+          type: number
+        waterReductionPercent:
+          type: number
+        recommendedElectricityUnitsPerMonth:
+          type: number
+        electricityReductionPercent:
+          type: number
+        estimatedCostSavingsInr:
+          type: number
+        carbonReductionKg:
+          type: number
+      required:
+        - recommendedFertilizerKgPerAcre
+        - fertilizerReductionPercent
+        - recommendedWaterLitersPerAcre
+        - waterReductionPercent
+        - recommendedElectricityUnitsPerMonth
+        - electricityReductionPercent
+        - estimatedCostSavingsInr
+        - carbonReductionKg
+
+    ResilienceFactorsInput:
+      type: object
+      properties:
+        climateReadiness:
+          type: integer
+        waterAvailability:
+          type: integer
+        cropDiversity:
+          type: integer
+        soilHealth:
+          type: integer
+        financialRisk:
+          type: integer
+        biodiversity:
+          type: integer
+      required:
+        - climateReadiness
+        - waterAvailability
+        - cropDiversity
+        - soilHealth
+        - financialRisk
+        - biodiversity
+
+    ResilienceScore:
+      type: object
+      properties:
+        overallScore:
+          type: integer
+        rating:
+          type: string
+        weakestFactors:
+          type: array
+          items:
+            type: string
+        improvementSuggestions:
+          type: array
+          items:
+            type: string
+      required:
+        - overallScore
+        - rating
+        - weakestFactors
+        - improvementSuggestions
+
+    GovernmentScheme:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        benefitSummary:
+          type: string
+        eligibilityCriteria:
+          type: array
+          items:
+            type: string
+        requiredDocuments:
+          type: array
+          items:
+            type: string
+        applicationGuide:
+          type: string
+      required:
+        - id
+        - name
+        - category
+        - description
+        - benefitSummary
+        - eligibilityCriteria
+        - requiredDocuments
+        - applicationGuide
+
+    SchemeMatchInput:
+      type: object
+      properties:
+        landSizeAcres:
+          type: number
+        hasIrrigation:
+          type: boolean
+        cropType:
+          type: string
+        annualIncomeInr:
+          type: number
+      required:
+        - landSizeAcres
+        - hasIrrigation
+        - cropType
+        - annualIncomeInr
+
+    SchemeMatch:
+      type: object
+      properties:
+        scheme:
+          $ref: "#/components/schemas/GovernmentScheme"
+        eligible:
+          type: boolean
+        matchReason:
+          type: string
+      required:
+        - scheme
+        - eligible
+        - matchReason
+
+    MarketPrice:
+      type: object
+      properties:
+        crop:
+          type: string
+        pricePerQuintalInr:
+          type: number
+        trend:
+          type: string
+          enum: [rising, stable, falling]
+        demandForecast:
+          type: string
+          enum: [low, moderate, high, very_high]
+        nearestMandi:
+          type: string
+      required:
+        - crop
+        - pricePerQuintalInr
+        - trend
+        - demandForecast
+        - nearestMandi
+
+    AssistantQuestionInput:
+      type: object
+      properties:
+        question:
+          type: string
+      required:
+        - question
+
+    AssistantAnswer:
+      type: object
+      properties:
+        answer:
+          type: string
+        topic:
+          type: string
+        relatedTopics:
+          type: array
+          items:
+            type: string
+      required:
+        - answer
+        - topic
+        - relatedTopics

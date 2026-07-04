@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Verdex AI"
+version = "1.0.0"
+id = "artifacts/verdex-ai"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19904
+
+[services.development]
+run = "pnpm --filter @workspace/verdex-ai run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/verdex-ai", "run", "build" ]
+publicDir = "artifacts/verdex-ai/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19904"
+BASE_PATH = "/"

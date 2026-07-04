@@ -1,0 +1,2 @@
+- [Deterministic AI without LLM API](deterministic-ai-modules.md) — build "AI" features as rule-based compute engines when Gemini/LLM integration isn't available; avoids needing API keys.
+- [Workflow names for artifacts](artifact-workflow-names.md) — restart_workflow needs the exact name shown by refresh_all_logs, not the artifact title or service name alone.
