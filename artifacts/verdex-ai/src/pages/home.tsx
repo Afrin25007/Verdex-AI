@@ -13,7 +13,7 @@ export default function Home() {
         <div className="container mx-auto max-w-6xl flex flex-col items-center text-center">
           <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-medium text-primary mb-8 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-700">
             <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse" />
-            Google Cloud AI Hackathon
+            Built on Google Cloud AI
           </div>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-foreground mb-8 max-w-4xl animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 fill-mode-both">
             Empowering Every <br/>
@@ -28,12 +28,16 @@ export default function Home() {
                 Start Free
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-full h-14 px-8 text-base border-border bg-background/50 backdrop-blur-sm hover:bg-muted">
-              Live Demo
-            </Button>
-            <Button size="lg" variant="ghost" className="w-full sm:w-auto rounded-full h-14 px-8 text-base hover:text-primary">
-              Explore AI
-            </Button>
+            <Link href="/dashboard" className="w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-full h-14 px-8 text-base border-border bg-background/50 backdrop-blur-sm hover:bg-muted">
+                View Dashboard
+              </Button>
+            </Link>
+            <Link href="/assistant" className="w-full sm:w-auto">
+              <Button size="lg" variant="ghost" className="w-full sm:w-auto rounded-full h-14 px-8 text-base hover:text-primary">
+                Explore AI
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
