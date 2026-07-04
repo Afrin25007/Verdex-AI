@@ -4,7 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useListSchemes, useMatchSchemes } from "@workspace/api-client-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { useListSchemes, useMatchSchemes, GovernmentScheme } from "@workspace/api-client-react";
 
 export default function Schemes() {
   const { data: schemes } = useListSchemes();
@@ -16,6 +23,8 @@ export default function Schemes() {
   const [income, setIncome] = useState("100000");
 
   const [showMatches, setShowMatches] = useState(false);
+  const [viewScheme, setViewScheme] = useState<GovernmentScheme | null>(null);
+  const [applyScheme, setApplyScheme] = useState<GovernmentScheme | null>(null);
 
   const handleMatch = () => {
     matchSchemes.mutate({
@@ -99,7 +108,7 @@ export default function Schemes() {
                     <span className="font-semibold">Match Reason:</span> {m.matchReason}
                   </div>
                   <p className="text-sm text-muted-foreground mb-4">{m.scheme.benefitSummary}</p>
-                  <Button variant="outline" size="sm" className="rounded-full w-full">Start Application</Button>
+                  <Button variant="outline" size="sm" className="rounded-full w-full" onClick={() => setApplyScheme(m.scheme)}>Start Application</Button>
                 </CardContent>
               </Card>
             ))}
@@ -119,7 +128,8 @@ export default function Schemes() {
               <CardContent className="flex-1 flex flex-col justify-between">
                 <p className="text-sm text-foreground/80 mb-6 line-clamp-3">{s.description}</p>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="rounded-full flex-1">Details</Button>
+                  <Button variant="outline" size="sm" className="rounded-full flex-1" onClick={() => setViewScheme(s)}>Details</Button>
+                  <Button size="sm" className="rounded-full flex-1" onClick={() => setApplyScheme(s)}>Apply</Button>
                 </div>
               </CardContent>
             </Card>
@@ -129,6 +139,104 @@ export default function Schemes() {
           )}
         </div>
       </div>
+
+      <Dialog open={!!viewScheme} onOpenChange={(open) => !open && setViewScheme(null)}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          {viewScheme && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl">{viewScheme.name}</DialogTitle>
+                <DialogDescription>{viewScheme.category}</DialogDescription>
+              </DialogHeader>
+              <div className="flex flex-col gap-6 mt-2">
+                <div>
+                  <h4 className="font-semibold text-base mb-2">Overview</h4>
+                  <p className="text-sm text-foreground/80">{viewScheme.description}</p>
+                </div>
+                <div className="bg-primary/5 border border-primary/10 rounded-lg p-4">
+                  <h4 className="font-semibold text-base mb-1">Benefit</h4>
+                  <p className="text-sm text-foreground/80">{viewScheme.benefitSummary}</p>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-base mb-2">Eligibility Criteria</h4>
+                  <ul className="space-y-2">
+                    {viewScheme.eligibilityCriteria.map((c) => (
+                      <li key={c} className="flex items-start gap-3 text-sm text-foreground/80">
+                        <div className="h-5 w-5 rounded-full bg-muted flex items-center justify-center text-xs mt-0.5 shrink-0 border">✓</div>
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-base mb-2">Required Documents</h4>
+                  <ul className="space-y-2">
+                    {viewScheme.requiredDocuments.map((d) => (
+                      <li key={d} className="flex items-start gap-3 text-sm text-foreground/80">
+                        <div className="h-5 w-5 rounded-full bg-muted flex items-center justify-center text-xs mt-0.5 shrink-0 border">📄</div>
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <Button
+                  className="rounded-full w-full"
+                  onClick={() => {
+                    setApplyScheme(viewScheme);
+                    setViewScheme(null);
+                  }}
+                >
+                  Start Application
+                </Button>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!applyScheme} onOpenChange={(open) => !open && setApplyScheme(null)}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          {applyScheme && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl">Apply — {applyScheme.name}</DialogTitle>
+                <DialogDescription>Follow these steps to complete your application.</DialogDescription>
+              </DialogHeader>
+              <div className="flex flex-col gap-6 mt-2">
+                <div className="bg-primary/5 border border-primary/10 rounded-lg p-4">
+                  <h4 className="font-semibold text-base mb-1">How to Apply</h4>
+                  <p className="text-sm text-foreground/80">{applyScheme.applicationGuide}</p>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-base mb-2">Documents You'll Need</h4>
+                  <ul className="space-y-2">
+                    {applyScheme.requiredDocuments.map((d) => (
+                      <li key={d} className="flex items-start gap-3 text-sm text-foreground/80">
+                        <div className="h-5 w-5 rounded-full bg-muted flex items-center justify-center text-xs mt-0.5 shrink-0 border">📄</div>
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-base mb-2">Confirm You're Eligible</h4>
+                  <ul className="space-y-2">
+                    {applyScheme.eligibilityCriteria.map((c) => (
+                      <li key={c} className="flex items-start gap-3 text-sm text-foreground/80">
+                        <div className="h-5 w-5 rounded-full bg-muted flex items-center justify-center text-xs mt-0.5 shrink-0 border">✓</div>
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="bg-muted/50 border border-border rounded-lg p-4 text-sm text-muted-foreground">
+                  Applications for this scheme are processed by the concerned government department or bank branch, not directly through Verdex AI. Use the guidance above to complete your application at the official channel.
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
