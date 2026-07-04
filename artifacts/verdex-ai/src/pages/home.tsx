@@ -11,16 +11,12 @@ export default function Home() {
       <section className="relative overflow-hidden w-full pt-24 pb-32 lg:pt-36 lg:pb-40 px-4 md:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background to-background z-[-1]" />
         <div className="container mx-auto max-w-6xl flex flex-col items-center text-center">
-          <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-medium text-primary mb-8 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse" />
-            Built on Google Cloud AI
-          </div>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-foreground mb-8 max-w-4xl animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 fill-mode-both">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-foreground mb-8 max-w-4xl animate-in fade-in slide-in-from-bottom-6 duration-700 fill-mode-both">
             Empowering Every <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Farmer with AI</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl animate-in fade-in slide-in-from-bottom-6 duration-700 delay-200 fill-mode-both leading-relaxed">
-            Predict climate risk, optimize resources, and build resilient agriculture using Google Cloud's advanced intelligence platform.
+            Predict climate risk, optimize resources, and build resilient agriculture with a powerful intelligence platform.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto animate-in fade-in slide-in-from-bottom-6 duration-700 delay-300 fill-mode-both">
             <Link href="/dashboard" className="w-full sm:w-auto">
@@ -99,7 +95,7 @@ export default function Home() {
       {/* Architecture */}
       <section className="py-32 bg-slate-950 text-slate-50 px-4 md:px-8">
         <div className="container mx-auto max-w-6xl text-center">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Google Cloud Architecture</h2>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Enterprise Cloud Architecture</h2>
           <p className="text-slate-400 text-lg max-w-3xl mx-auto mb-16">Built on the industry's most robust AI and data foundation.</p>
           <div className="flex flex-wrap justify-center gap-4">
             {["Vertex AI", "Gemini API", "Cloud Run", "Firestore", "Cloud Storage", "Google Maps API", "BigQuery", "Earth Engine", "Cloud Vision", "Firebase"].map(tech => (
